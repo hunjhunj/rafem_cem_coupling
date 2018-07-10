@@ -122,6 +122,8 @@ max_rand = 0.0001
 
 if not os.path.exists("output_data"):
     os.mkdir("output_data")
+    with open("output_data/river_info.out", "w"):
+        pass
 
 if Save_Daily_Timesteps or Save_Yearly_Timesteps:
     # make directories to save run data
