@@ -32,23 +32,25 @@ file.
 
 # Getting started
 
+Installing `pymt` from the `conda-forge` channel can be achieved by adding
+`conda-forge` to your channels with:
+ 
+    $ conda config --add channels conda-forge
+
 Create an empty conda environment to install the software and run
 the experiments in.
 
-    $ conda create -n rafem_cem python=2.7
-    $ source activate rafem_cem
+    $ conda create -n pymt python=3.6
+    $ source activate pymt
 
 Install the software needed to run the experiments.
 
-    $ conda install pymt -c csdms-stack -c conda-forge
-    $ conda install pymt_cem pymt_waves rafem -c csdms-stack -c conda-forge
-    $ conda install ipython matplotlib
+    $ conda install pymt
+    $ conda install rafem
+    $ conda install pymt_rafemss
 
 # Run the model
 
-Run the model from the command line. The arguments are:
-* asymmetry of incoming waves angle
-* highness factor on incoming waves angle
-* wave height
+Run the model from the command line.
 
-    $ python run_model.py .5 .5 2.
+    $ python run_model.pys
