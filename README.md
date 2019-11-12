@@ -47,10 +47,10 @@ Install the software needed to run the experiments.
 
     $ conda install pymt
     $ conda install rafem
-    $ conda install pymt_rafemss
+    $ conda install pymt_rafem
 
 # Run the model
 
 Run the model from the command line.
 
-    $ python run_model.pys
+    $ python run_model.py
