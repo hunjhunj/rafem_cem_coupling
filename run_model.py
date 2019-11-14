@@ -9,15 +9,14 @@ import numpy as np
 from pymt.models import Cem, Rafem, Waves
 
 matplotlib.use("Agg")
-# from rafem.riverbmi import BmiRiverModule
 
-N_DAYS = 10
-Save_Daily_Timesteps = 1
-Save_Yearly_Timesteps = 0
-Save_Fluxes = 1
-save_int = 1  # (in days)
+N_DAYS = 30*365     # number of days to run model
+Save_Daily_Timesteps = 1    # flag for saving daily information
+Save_Yearly_Timesteps = 0   # flag for saving yearly information
+Save_Fluxes = 1             # flag for saving sediment flux information
+save_int = 365      # interval for saving data (in days)
 
-
+# set up planview plots
 def plot_coast(spacing, z):
     import matplotlib.pyplot as plt
     from matplotlib.colors import LinearSegmentedColormap
@@ -36,28 +35,30 @@ def plot_coast(spacing, z):
     plt.pcolormesh(y * 1e-3, x * 1e-3, z, cmap=m, vmin=-50, vmax=50)
 
     plt.gca().set_aspect(1.0)
-    plt.axis([0, 20, 0, 12])
+    plt.axis([0, 12, 0, 10])
     # plt.colorbar(orientation='horizontal').ax.set_xlabel('Elevation (m)')
     plt.xlabel("backwater lengths")
     plt.ylabel("backwater lengths")
-
 
 cem = Cem()
 raf = Rafem()
 waves = Waves()
 
-args = cem.setup("_run_cem", number_of_cols=200, number_of_rows=120, grid_spacing=100.0)
+args = cem.setup("_run_cem", number_of_cols=120, number_of_rows=100, grid_spacing=100.0)
 cem.initialize(*args)
 
 args = raf.setup(
     "_run_rafem",
-    n_cols=200,
-    n_rows=120,
+    n_cols=120,
+    n_rows=100,
     dy=0.1,
     dx=0.1,
-    sea_level_rise_rate=0.00,
+    time_step= 0.05, # timestep (days)
+    sea_level_rise_rate=0.0,
     channel_discharge=10.0,
     upstream_elevation=5.0,
+    random_seed=1111,
+    saveavulsions=os.path.abspath("output_data/river_info.out"),
 )
 raf.initialize(*args)
 
@@ -91,9 +92,6 @@ shape = cem.get_grid_shape(grid_id)
 z0 = raf.get_value("land_surface__elevation").reshape(shape)
 riv_x = raf.get_value("channel_centerline__x_coordinate") / 1000
 riv_y = raf.get_value("channel_centerline__y_coordinate") / 1000
-# plot_coast(spacing, z0)
-# plt.plot(riv_y,riv_x)
-# plt.savefig('elev_initial.png')
 
 qs = np.zeros_like(z0)
 flux_array = np.zeros(2, dtype=np.float)
