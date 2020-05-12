@@ -58,7 +58,7 @@ args = raf.setup(
     channel_discharge=10.0,
     upstream_elevation=5.0,
     random_seed=1111,
-    saveavulsions=os.path.abspath("output_data/river_info.out"),
+    saveavulsions=True,
 )
 raf.initialize(*args)
 
